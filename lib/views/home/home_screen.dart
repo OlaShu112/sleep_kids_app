@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:google_nav_bar/google_nav_bar.dart'; // Import GNav
 
 import 'package:sleep_kids_app/views/home/sleep_tracking_screen.dart';
 import 'package:sleep_kids_app/views/home/analytics_screen.dart';
 import 'package:sleep_kids_app/views/home/bedtime_stories_screen.dart';
 import 'package:sleep_kids_app/views/home/profile_screen.dart';
-import 'package:sleep_kids_app/widgets/custom_button.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,6 +17,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String currentTime = '';
+  int _selectedIndex = 0;
+
+  final List<String> _routes = [
+    '/home',
+    '/sleep-tracking',
+    '/analytics',
+    '/bedtime-stories',
+    '/profile',
+  ];
 
   @override
   void initState() {
@@ -30,6 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
       currentTime = DateFormat('hh:mm a').format(DateTime.now());
     });
     Future.delayed(Duration(seconds: 1), _updateTime);
+  }
+
+  void _onItemTapped(int index) {
+    if (_selectedIndex != index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+      context.go(_routes[index]); // ✅ Navigate between screens
+    }
   }
 
   @override
@@ -87,31 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              CustomButton(
-                title: 'Track Sleep',
-                route: '/sleep-tracking', // Navigate to SleepTrackingScreen
-              ),
-              CustomButton(
-                title: 'View Analytics',
-                route: '/analytics', // Navigate to AnalyticsScreen
-              ),
-              CustomButton(
-                title: 'Bedtime Stories',
-                route: '/bedtime-stories', // Navigate to BedtimeStoriesScreen
-              ),
-              CustomButton(
-                title: 'Goal',
-                route: '/goal', // Navigate to GoalScreen
-              ),
-              CustomButton(
-                title: 'Education',
-                route: '/education', // Navigate to EducationScreen
-              ),
-              CustomButton(
-                title: 'Profile',
-                route: '/profile', // Navigate to ProfileScreen
               ),
             ],
           ),

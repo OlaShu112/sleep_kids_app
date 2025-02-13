@@ -1,7 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
-class EducationScreen extends StatelessWidget {
+class EducationScreen extends StatefulWidget {
   const EducationScreen({Key? key}) : super(key: key);
+
+  @override
+  _EducationScreenState createState() => _EducationScreenState();
+}
+
+class _EducationScreenState extends State<EducationScreen> {
+  int _selectedIndex = 0; // Adjust index if adding Education tab to navbar
+
+  final List<String> _routes = [
+    '/home',
+    '/sleep-tracking',
+    '/analytics',
+    '/bedtime-stories',
+    '/profile',
+  ];
+
+  void _onItemTapped(int index) {
+    if (_selectedIndex != index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+      context.go(_routes[index]); // ✅ Navigate between pages
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +60,7 @@ class EducationScreen extends StatelessWidget {
           ),
         ],
       ),
+      
     );
   }
 
