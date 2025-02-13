@@ -15,18 +15,13 @@ import 'views/home/profile_screen.dart'; // Import ProfileScreen (if you have it
 import 'views/home/goal_screen.dart';
 import 'views/home/education_screen.dart';
 import 'views/home/dashboard_screen.dart';
-
-
-
-
-
+import 'package:sleep_kids_app/widgets/main_layout.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(); // Ensure Firebase is initialized
   runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   // Create a GoRouter instance
@@ -48,37 +43,41 @@ class MyApp extends StatelessWidget {
       ),
       GoRoute(
         path: '/sleep-tracking',
-        builder: (context, state) => SleepTrackingScreen(), // Add your sleep tracking route here
+        builder: (context, state) => MainLayout(
+            child: SleepTrackingScreen()), // Add your sleep tracking route here
       ),
       GoRoute(
         path: '/analytics',
-        builder: (context, state) => AnalyticsScreen(),
+        builder: (context, state) => MainLayout(child: AnalyticsScreen()),
       ),
       GoRoute(
         path: '/bedtime-stories',
-        builder: (context, state) => BedtimeStoriesScreen(),
+        builder: (context, state) => MainLayout(child: BedtimeStoriesScreen()),
       ),
       GoRoute(
         path: '/profile',
-        builder: (context, state) => ProfileScreen(),
+        builder: (context, state) => MainLayout(child: ProfileScreen()),
       ),
       GoRoute(
         path: '/goal',
-        builder: (context, state) => GoalScreen(),
+        builder: (context, state) => MainLayout(child: GoalScreen()),
       ),
-      GoRoute( // ✅ Added this
+      GoRoute(
+        // ✅ Added this
         path: '/education',
-        builder: (context, state) => EducationScreen(), // Ensure HomeScreen exists
+        builder: (context, state) =>
+            MainLayout(child: EducationScreen()), // Ensure HomeScreen exists
       ),
-      GoRoute( // ✅ Added this
+      GoRoute(
+        // ✅ Added this
         path: '/home',
-        builder: (context, state) => HomeScreen(), // Ensure HomeScreen exists
+        builder: (context, state) => MainLayout(child: HomeScreen()), // Ensure HomeScreen exists
       ),
       GoRoute(
         path: '/dashboard',
-        builder: (context, state) => DashboardScreen(), // Replace with the actual path of DashboardScreen
+        builder: (context, state) =>
+            DashboardScreen(), // Replace with the actual path of DashboardScreen
       ),
-
     ],
   );
 
@@ -91,6 +90,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp.router(
         title: 'Sleep Kids',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
@@ -99,10 +99,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-
-
 
 class MainPage extends StatefulWidget {
   @override
@@ -133,7 +129,8 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: Colors.transparent,
       drawer: Drawer(
         child: Container(
-          color: Colors.black.withOpacity(0.8), // Dark background for the drawer
+          color:
+              Colors.black.withOpacity(0.8), // Dark background for the drawer
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
@@ -141,7 +138,8 @@ class _MainPageState extends State<MainPage> {
                 padding: EdgeInsets.zero, // No padding for the header
                 child: Container(
                   padding: EdgeInsets.all(16), // Padding for the header content
-                  color: Colors.transparent, // Transparent background for header
+                  color:
+                      Colors.transparent, // Transparent background for header
                   child: Text(
                     'Menu',
                     style: TextStyle(
@@ -159,26 +157,30 @@ class _MainPageState extends State<MainPage> {
               Column(
                 children: [
                   ListTile(
-                    title: Text('About Us', style: TextStyle(color: Colors.white)),
+                    title:
+                        Text('About Us', style: TextStyle(color: Colors.white)),
                     onTap: () {
                       print('Navigating to About Us');
                     },
                   ),
                   ListTile(
-                    title: Text('Contact Us', style: TextStyle(color: Colors.white)),
+                    title: Text('Contact Us',
+                        style: TextStyle(color: Colors.white)),
                     onTap: () {
                       print('Navigating to Contact Us');
                     },
                   ),
                   ListTile(
-                    title: Text('Other Pages', style: TextStyle(color: Colors.white)),
+                    title: Text('Other Pages',
+                        style: TextStyle(color: Colors.white)),
                     onTap: () {
                       print('Navigating to Other Pages');
                     },
                   ),
                   // Add the Dashboard menu item here
                   ListTile(
-                    title: Text('Dashboard', style: TextStyle(color: Colors.white)),
+                    title: Text('Dashboard',
+                        style: TextStyle(color: Colors.white)),
                     onTap: () {
                       // Navigate to the Dashboard screen
                       context.go('/dashboard');
@@ -293,7 +295,8 @@ class _MainPageState extends State<MainPage> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -317,8 +320,3 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
-
-
-
-
-
