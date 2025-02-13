@@ -29,6 +29,7 @@ void main() async {
 
 
 class MyApp extends StatelessWidget {
+  
   // Create a GoRouter instance
   final GoRouter _router = GoRouter(
     initialLocation: '/',
@@ -91,6 +92,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp.router(
         title: 'Sleep Kids',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
@@ -130,6 +132,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       backgroundColor: Colors.transparent,
       drawer: Drawer(
         child: Container(

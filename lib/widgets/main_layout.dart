@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-class SleepTrackingScreen extends StatefulWidget {
-  const SleepTrackingScreen({super.key});
+class MainLayout extends StatefulWidget {
+  final Widget child;
+  const MainLayout({Key? key, required this.child}) : super(key: key);
 
   @override
-  _SleepTrackingScreenState createState() => _SleepTrackingScreenState();
+  _MainLayoutState createState() => _MainLayoutState();
 }
 
-class _SleepTrackingScreenState extends State<SleepTrackingScreen> {
-  int _selectedIndex = 1; // ✅ Make sure Sleep is selected
+class _MainLayoutState extends State<MainLayout> {
+  int _selectedIndex = 0;
 
   final List<String> _routes = [
     '/home',
@@ -20,29 +21,29 @@ class _SleepTrackingScreenState extends State<SleepTrackingScreen> {
     '/profile',
   ];
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
+    final location = GoRouterState.of(context).uri.toString(); // ✅ Fix for GoRouter
+    setState(() {
+      _selectedIndex = _routes.indexOf(location);
+    });
+  }
+
   void _onItemTapped(int index) {
     if (_selectedIndex != index) {
       setState(() {
         _selectedIndex = index;
       });
-      context.go(_routes[index]); // ✅ Navigate between pages
+      context.go(_routes[index]); // ✅ Navigate while keeping the navbar
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sleep Tracking')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Track your sleep patterns here.', style: TextStyle(fontSize: 20)),
-            const SizedBox(height: 20),
-            Icon(Icons.nightlight_round, size: 80, color: Colors.deepPurple),
-          ],
-        ),
-      ),
+      body: widget.child, // ✅ Keeps the current page while showing navbar
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.black,

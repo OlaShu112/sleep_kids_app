@@ -1,7 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:sleep_kids_app/ult/tinderCard.dart';
 
-class BedtimeStoriesScreen extends StatelessWidget {
+class BedtimeStoriesScreen extends StatefulWidget {
   const BedtimeStoriesScreen({Key? key}) : super(key: key);
+
+  @override
+  _BedtimeStoriesScreenState createState() => _BedtimeStoriesScreenState();
+}
+
+class _BedtimeStoriesScreenState extends State<BedtimeStoriesScreen> {
+  int _selectedIndex = 3; // ✅ Set index to match 'Stories' tab
+
+  final List<String> _routes = [
+    '/home',
+    '/sleep-tracking',
+    '/analytics',
+    '/bedtime-stories',
+    '/profile',
+  ];
+
+  void _onItemTapped(int index) {
+    if (_selectedIndex != index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+      context.go(_routes[index]); // ✅ Navigate between pages
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +67,32 @@ class BedtimeStoriesScreen extends StatelessWidget {
           SizedBox(height: 20),
           const Center(child: Icon(Icons.menu_book, size: 80, color: Colors.deepPurple)),
         ],
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.black,
+          boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black26)],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+          child: GNav(
+            backgroundColor: Colors.black,
+            color: Colors.white,
+            activeColor: Colors.blue,
+            tabBackgroundColor: Colors.white24,
+            gap: 8,
+            padding: EdgeInsets.all(16),
+            selectedIndex: _selectedIndex,
+            onTabChange: _onItemTapped,
+            tabs: const [
+              GButton(icon: Icons.home, text: 'Home'),
+              GButton(icon: Icons.nightlight, text: 'Sleep'),
+              GButton(icon: Icons.analytics, text: 'Analytics'),
+              GButton(icon: Icons.book, text: 'Stories'),
+              GButton(icon: Icons.person, text: 'Profile'),
+            ],
+          ),
+        ),
       ),
     );
   }
