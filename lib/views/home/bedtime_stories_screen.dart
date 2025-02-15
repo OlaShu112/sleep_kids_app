@@ -13,23 +13,6 @@ class BedtimeStoriesScreen extends StatefulWidget {
 class _BedtimeStoriesScreenState extends State<BedtimeStoriesScreen> {
   int _selectedIndex = 3; // ✅ Set index to match 'Stories' tab
 
-  final List<String> _routes = [
-    '/home',
-    '/sleep-tracking',
-    '/analytics',
-    '/bedtime-stories',
-    '/profile',
-  ];
-
-  void _onItemTapped(int index) {
-    if (_selectedIndex != index) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      context.go(_routes[index]); // ✅ Navigate between pages
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +50,13 @@ class _BedtimeStoriesScreenState extends State<BedtimeStoriesScreen> {
           SizedBox(height: 20),
           const Center(
               child: Icon(Icons.menu_book, size: 80, color: Colors.deepPurple)),
+          Center(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.75,
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: TindercardView(),
+            ),
+          ),
         ],
       ),
     );
