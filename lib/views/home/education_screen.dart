@@ -18,6 +18,7 @@ class _EducationScreenState extends State<EducationScreen> {
     '/analytics',
     '/bedtime-stories',
     '/profile',
+    '/achievement',
   ];
 
   void _onItemTapped(int index) {

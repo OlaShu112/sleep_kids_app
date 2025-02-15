@@ -7,6 +7,7 @@ import 'package:sleep_kids_app/views/home/sleep_tracking_screen.dart';
 import 'package:sleep_kids_app/views/home/analytics_screen.dart';
 import 'package:sleep_kids_app/views/home/bedtime_stories_screen.dart';
 import 'package:sleep_kids_app/views/home/profile_screen.dart';
+import 'package:sleep_kids_app/views/home/achievements_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

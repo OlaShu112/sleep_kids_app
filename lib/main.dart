@@ -16,6 +16,10 @@ import 'views/home/goal_screen.dart';
 import 'views/home/education_screen.dart';
 import 'views/home/dashboard_screen.dart';
 import 'package:sleep_kids_app/widgets/main_layout.dart';
+import 'package:sleep_kids_app/views/home/sleep_goal_screen.dart' as sleep_goal;
+import 'package:sleep_kids_app/views/home/achievements_screen.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,6 +81,16 @@ class MyApp extends StatelessWidget {
         path: '/dashboard',
         builder: (context, state) =>
             DashboardScreen(), // Replace with the actual path of DashboardScreen
+      ),
+      GoRoute(
+        // ✅ Added this
+        path: '/sleep-goals',
+        builder: (context, state) => MainLayout(child: sleep_goal.SleepGoalScreen()),
+      ),
+      GoRoute(
+        // ✅ Added this
+        path: '/achievement',
+        builder: (context, state) => MainLayout(child: AchievementsScreen()), // Ensure HomeScreen exists
       ),
     ],
   );

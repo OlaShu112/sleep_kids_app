@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:postgres/postgres.dart';  // Correct import
+import 'package:postgres/postgres.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
@@ -7,12 +7,13 @@ import 'package:shelf_cors_headers/shelf_cors_headers.dart';  // CORS support
 
 // Define the database connection
 var connection = PostgreSQLConnection(
-  'localhost', // Database host (use your host details)
-  5432, // Default PostgreSQL port
-  'sleep_kids_db', // Database name
-  username: 'your_username', // Database username
-  password: 'your_password', // Database password
+  'localhost', // host
+  5432,        // port
+  'database',  // database name
+  username: 'your_username',
+  password: 'your_password',
 );
+
 
 void main() async {
   // Establish connection to the database

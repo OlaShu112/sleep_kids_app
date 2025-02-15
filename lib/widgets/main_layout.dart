@@ -7,7 +7,7 @@ class MainLayout extends StatefulWidget {
   const MainLayout({Key? key, required this.child}) : super(key: key);
 
   @override
-  _MainLayoutState createState() => _MainLayoutState();
+  State<MainLayout> createState() => _MainLayoutState();
 }
 
 class _MainLayoutState extends State<MainLayout> {
@@ -19,13 +19,18 @@ class _MainLayoutState extends State<MainLayout> {
     '/analytics',
     '/bedtime-stories',
     '/profile',
+    '/goal',
+    '/education',
+    '/achievement',
   ];
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    
-    final location = GoRouterState.of(context).uri.toString(); // ✅ Fix for GoRouter
+    final location = GoRouterState
+        .of(context)
+        .uri
+        .toString();
     setState(() {
       _selectedIndex = _routes.indexOf(location);
     });
@@ -33,40 +38,54 @@ class _MainLayoutState extends State<MainLayout> {
 
   void _onItemTapped(int index) {
     if (_selectedIndex != index) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      context.go(_routes[index]); // ✅ Navigate while keeping the navbar
+      setState(() => _selectedIndex = index);
+      context.go(_routes[index]);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.child, // ✅ Keeps the current page while showing navbar
+      body: widget.child,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.black,
-          boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black26)],
+          image: DecorationImage(
+            image: AssetImage('assets/nav_bg.jpg'),
+            fit: BoxFit.cover,
+          ),
+          boxShadow: [BoxShadow(blurRadius: 20, color: Colors.black45)],
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-          child: GNav(
-            backgroundColor: Colors.black,
-            color: Colors.white,
-            activeColor: Colors.blue,
-            tabBackgroundColor: Colors.white24,
-            gap: 8,
-            padding: EdgeInsets.all(16),
-            selectedIndex: _selectedIndex,
-            onTabChange: _onItemTapped,
-            tabs: const [
-              GButton(icon: Icons.home, text: 'Home'),
-              GButton(icon: Icons.nightlight, text: 'Sleep'),
-              GButton(icon: Icons.analytics, text: 'Analytics'),
-              GButton(icon: Icons.book, text: 'Stories'),
-              GButton(icon: Icons.person, text: 'Profile'),
-            ],
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: GNav(
+                backgroundColor: Colors.transparent,
+                color: Colors.white,
+                activeColor: Colors.blueAccent,
+                tabBackgroundColor: Colors.black54,
+                gap: 6,
+                padding: const EdgeInsets.all(12),
+                selectedIndex: _selectedIndex,
+                onTabChange: _onItemTapped,
+                tabs: const [
+                  GButton(icon: Icons.home, text: 'Home'),
+                  GButton(icon: Icons.nightlight, text: 'Sleep'),
+                  GButton(icon: Icons.analytics, text: 'Analytics'),
+                  GButton(icon: Icons.book, text: 'Stories'),
+                  GButton(icon: Icons.person, text: 'Profile'),
+                  GButton(icon: Icons.flag, text: 'Goal'),
+                  GButton(icon: Icons.school, text: 'Education'),
+                  GButton(icon: Icons.emoji_events, text: 'Achievements'),
+
+                ],
+              ),
+            ),
           ),
         ),
       ),
