@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class ChildProfile {
-  String userId;
+  String childId;
   String childName;
   DateTime dateOfBirth;
   String profileImageUrl;
@@ -10,7 +10,7 @@ class ChildProfile {
   List<String> healthConditions; // List of health conditions or notes
 
   ChildProfile({
-    required this.userId,
+    required this.childId,
     required this.childName,
     required this.dateOfBirth,
     required this.profileImageUrl,
@@ -20,7 +20,7 @@ class ChildProfile {
 
   factory ChildProfile.fromMap(Map<String, dynamic> map) {
     return ChildProfile(
-      userId: map['userId'],
+      childId: map['childId'],
       childName: map['childName'],
       dateOfBirth: (map['dateOfBirth'] as Timestamp).toDate(),
       profileImageUrl: map['profileImageUrl'] ?? '',
@@ -31,7 +31,7 @@ class ChildProfile {
 
   Map<String, dynamic> toMap() {
     return {
-      'userId': userId,
+      'userId': childId,
       'childName': childName,
       'dateOfBirth': dateOfBirth,
       'profileImageUrl': profileImageUrl,

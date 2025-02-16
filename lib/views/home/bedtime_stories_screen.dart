@@ -11,7 +11,6 @@ class BedtimeStoriesScreen extends StatefulWidget {
 }
 
 class _BedtimeStoriesScreenState extends State<BedtimeStoriesScreen> {
-  int _selectedIndex = 3; // ✅ Set index to match 'Stories' tab
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:sleep_kids_app/core/models/education_model.dart';
 
 class EducationScreen extends StatefulWidget {
   const EducationScreen({Key? key}) : super(key: key);
@@ -9,71 +8,98 @@ class EducationScreen extends StatefulWidget {
   _EducationScreenState createState() => _EducationScreenState();
 }
 
-class _EducationScreenState extends State<EducationScreen> {
-  int _selectedIndex = 0; // Adjust index if adding Education tab to navbar
+class _EducationScreenState extends State<EducationScreen>
+    with TickerProviderStateMixin {
+  List<Education> educationList = [];
+  int? expandedIndex;
 
-  final List<String> _routes = [
-    '/home',
-    '/sleep-tracking',
-    '/analytics',
-    '/bedtime-stories',
-    '/profile',
-    '/achievement',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _getEducation();
+  }
 
-  void _onItemTapped(int index) {
-    if (_selectedIndex != index) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      context.go(_routes[index]); // ✅ Navigate between pages
-    }
+  void _getEducation() {
+    setState(() {
+      educationList = Education.getEducation();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Sleep Education")),
-      body: ListView(
-        padding: EdgeInsets.all(16),
-        children: [
-          Text("Learn About Healthy Sleep Habits", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          SizedBox(height: 20),
+      appBar: AppBar(title: const Text("Sleep Education")),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(16),
+        itemCount: educationList.length,
+        separatorBuilder: (context, index) => const SizedBox(height: 10),
+        itemBuilder: (context, index) {
+          final education = educationList[index];
+          bool isExpanded = expandedIndex == index;
 
-          _buildEducationCard(
-            title: "Why Sleep is Important",
-            description: "Understand why quality sleep matters for your child’s growth and well-being.",
-          ),
-
-          _buildEducationCard(
-            title: "Bedtime Routines That Work",
-            description: "Discover effective bedtime routines to help your child sleep better.",
-          ),
-
-          _buildEducationCard(
-            title: "Reducing Screen Time Before Bed",
-            description: "Learn how screens impact sleep and how to set screen-free bedtime rules.",
-          ),
-
-          _buildEducationCard(
-            title: "Foods That Help or Harm Sleep",
-            description: "Find out which foods promote better sleep and which ones to avoid.",
-          ),
-        ],
-      ),
-      
-    );
-  }
-
-  Widget _buildEducationCard({required String title, required String description}) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.only(bottom: 16),
-      child: ListTile(
-        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(description),
-        leading: Icon(Icons.lightbulb_outline, color: Colors.blue),
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                expandedIndex = isExpanded ? null : index;
+              });
+            },
+            child: AnimatedSize(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: isExpanded ? Colors.teal[300] : Colors.teal[100],
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 5,
+                      offset: const Offset(3, 3),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      education.courseName,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ClipRect(
+                      child: AnimatedSize(
+                        duration: const Duration(milliseconds:250),
+                        curve: Curves.easeInOut,
+                        child: Text(
+                          education.context,
+                          maxLines: isExpanded ? null : 2,
+                          overflow: TextOverflow.fade,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
+                    ),
+                    if (isExpanded)
+                      const Center(
+                        child: Icon(
+                          Icons.expand_less,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                      )
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
