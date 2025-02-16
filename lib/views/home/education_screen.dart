@@ -101,6 +101,8 @@ class _EducationScreenState extends State<EducationScreen>
           );
         },
       ),
+
+      // will add suggestion for each child
     );
   }
 }
