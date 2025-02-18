@@ -1,42 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class ChildProfile {
-  String userId;
+  String childId;
   String childName;
+  String issueId;
   DateTime dateOfBirth;
   String profileImageUrl;
   String guardianId;
-  List<String> healthConditions; // List of health conditions or notes
 
   ChildProfile({
-    required this.userId,
+    required this.childId,
     required this.childName,
+    required this.issueId,
     required this.dateOfBirth,
     required this.profileImageUrl,
     required this.guardianId,
-    required this.healthConditions,
   });
 
-  factory ChildProfile.fromMap(Map<String, dynamic> map) {
+  // fetch data directly from fireStore.
+  factory ChildProfile.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
     return ChildProfile(
-      userId: map['userId'],
-      childName: map['childName'],
-      dateOfBirth: (map['dateOfBirth'] as Timestamp).toDate(),
-      profileImageUrl: map['profileImageUrl'] ?? '',
-      guardianId: map['guardianId'],
-      healthConditions: List<String>.from(map['healthConditions'] ?? []),
+      childId: doc.id,
+      childName: data['childName'],
+      issueId: data['IssueId'],
+      dateOfBirth: (data['dateOfBirth'] as Timestamp).toDate(),
+      profileImageUrl: data['profileImageUrl'] ?? '',
+      guardianId: data['guardianId'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'userId': userId,
+      'userId': childId,
       'childName': childName,
+      'IssueId': issueId,
       'dateOfBirth': dateOfBirth,
       'profileImageUrl': profileImageUrl,
       'guardianId': guardianId,
-      'healthConditions': healthConditions,
     };
   }
 }
