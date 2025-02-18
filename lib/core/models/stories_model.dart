@@ -6,15 +6,23 @@ class UserModel {
   String context;
   String profileImageUrl;
 
-  // Example: "parent", "child", "admin"
-
   UserModel({
     required this.storyId,
     required this.description,
     required this.context,
     required this.profileImageUrl,
-
   });
+
+  // Factory constructor to create a UserModel instance from a Firestore document
+  factory UserModel.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>? ?? {};
+    return UserModel(
+      storyId: doc.id,
+      description: data['description'],
+      context: data['context'],
+      profileImageUrl: data['profileImageUrl'] ?? '',
+    );
+  }
 
   // Factory constructor to create a UserModel instance from a map
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -22,8 +30,7 @@ class UserModel {
       storyId: map['storyId'],
       description: map['description'],
       context: map['context'],
-      profileImageUrl: map['profileImageUrl']
-
+      profileImageUrl: map['profileImageUrl'] ?? '',
     );
   }
 
@@ -34,7 +41,6 @@ class UserModel {
       'description': description,
       'context': context,
       'profileImageUrl': profileImageUrl,
-
     };
   }
 }
